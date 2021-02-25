@@ -56,7 +56,7 @@ public class blogRetriever {
 		}
 		else {
 			
-			index=idx.invertedIndexing(getValidBlogs());
+			index=idx.prepareIndexes(getValidBlogs());
 		}
 	 IndexReader idxReader = DirectoryReader.open(index);
      while(true) {

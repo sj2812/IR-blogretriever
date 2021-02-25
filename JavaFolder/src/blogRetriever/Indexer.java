@@ -20,7 +20,7 @@ import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
 public class Indexer {
-	public static Directory invertedIndexing(List<String> docs) throws IOException {
+	public static Directory prepareIndexes(List<String> docs) throws IOException {
         System.out.println("----------------------------------------");
         System.out.println("creating index");
         System.out.println("----------------------------------------");
@@ -54,7 +54,7 @@ public class Indexer {
 
                     Field f = new Field("ub2", ts, ft);
 
-                    //TextField f = new TextField("ub2", ts);
+                
                     StoredField sf = new StoredField("ub2_stored", docs.get(i));
 
                     Document d = new Document();

@@ -21,9 +21,9 @@ import org.apache.lucene.document.Field;
 
 public class Indexer {
 	public static Directory prepareIndexes(List<String> docs) throws IOException {
-        System.out.println("----------------------------------------");
-        System.out.println("creating index");
-        System.out.println("----------------------------------------");
+        
+        System.out.println("Indexing");
+        
 
         Directory index = FSDirectory.open(Paths.get("index"));
 

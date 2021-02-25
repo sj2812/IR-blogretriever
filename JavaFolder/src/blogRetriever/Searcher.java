@@ -37,13 +37,10 @@ public class Searcher {
         System.out.println("searching index");
         System.out.println("----------------------------------------");
         Directory index = indexDir;
-//        FSDirectory index = FSDirectory.open(Paths.get("D:\\dke\\JOB\\ir tutorship wise 2020-21\\assignment\\ub2\\index"));
 
         IndexReader idxReader = DirectoryReader.open(index);
         IndexSearcher searcher = new IndexSearcher(idxReader);
         IndexSearcher idxSearcher = new IndexSearcher(idxReader);
-//        SynExpand se=new SynExpand();
-//        se.expand(null, null, null, null, getscalarsim())
         Analyzer analyser = null;
         
         ArrayList<Query> queries = new ArrayList<>();
@@ -62,9 +59,8 @@ public class Searcher {
 
                 while (ts.incrementToken()) {
                     CharTermAttribute attr = ts.getAttribute(CharTermAttribute.class);
-                    //System.out.println(new String(attr.buffer(), 0, attr.length()));
-//                    Query q = new TermQuery(new Term("ub2", new String(attr.buffer(), 0, attr.length())));
-                    Term term =new Term("ub2", new String(attr.buffer(), 0, attr.length()));
+                   
+                    Term term =new Term("field", new String(attr.buffer(), 0, attr.length()));
                     Query q = new FuzzyQuery(term);
                     
                     queries.add( q);
@@ -95,15 +91,15 @@ public class Searcher {
             int docId = hits[i].doc;
 //            System.out.println(idxSearcher.explain(queries.get(0), docId));
             Document d = idxSearcher.doc(docId);
-            String toprint=d.get("ub2_stored");
+            String toprint=d.get("field_stored");
             for (int j = 0; j < userQuery.length; j++) {
-            	QueryParser queryParser = new QueryParser("ub2", new StandardAnalyzer());
+            	QueryParser queryParser = new QueryParser("field", new StandardAnalyzer());
                 Query query = queryParser.parse(userQuery[j]);
-            	QueryScorer queryScorer = new QueryScorer(query, "ub2");
+            	QueryScorer queryScorer = new QueryScorer(query, "field");
                 Highlighter highlighter = new Highlighter(queryScorer); // Set the best scorer fragments
                 highlighter.setTextFragmenter(new NullFragmenter());
                 TokenStream tokenStream = TokenSources.getAnyTokenStream(idxReader,
-                        hits[i].doc, "ub2", d, new StandardAnalyzer());
+                        hits[i].doc, "field", d, new StandardAnalyzer());
                 String fragment = highlighter.getBestFragment(tokenStream, toprint);
                 if(fragment!=null) {
                 	toprint=fragment;
@@ -116,7 +112,6 @@ public class Searcher {
             	System.out.println(idxSearcher.explain(bqb.build(), docId));
             }
             
-//            System.out.println((i + 1) + ". " + d.get("ub2_stored"));
         }
 
         idxReader.close();

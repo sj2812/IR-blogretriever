@@ -33,9 +33,9 @@ import org.apache.lucene.search.BooleanClause;
 
 public class Searcher {
 	public static void searchIndex(Set<String> qterms,String[] userQuery,Directory indexDir,int num,boolean explain) throws IOException, InvalidTokenOffsetsException, org.apache.lucene.queryparser.classic.ParseException {
-        System.out.println("----------------------------------------");
-        System.out.println("searching index");
-        System.out.println("----------------------------------------");
+        
+        System.out.println("Searching");
+        
         Directory index = indexDir;
 
         IndexReader idxReader = DirectoryReader.open(index);
@@ -77,19 +77,18 @@ public class Searcher {
          
          
 
-        BooleanQuery.Builder bqb = new BooleanQuery.Builder();
+        BooleanQuery.Builder bq = new BooleanQuery.Builder();
          
         
         
         for (int i = 0; i < queries.size(); i++) {
-            bqb.add(queries.get(i), BooleanClause.Occur.SHOULD);
+            bq.add(queries.get(i), BooleanClause.Occur.SHOULD);
         }
-        TopDocs docs = idxSearcher.search(bqb.build(),num );
+        TopDocs docs = idxSearcher.search(bq.build(),num );
 
         ScoreDoc[] hits = docs.scoreDocs;
         for (int i = 0; i < hits.length; ++i) {
             int docId = hits[i].doc;
-//            System.out.println(idxSearcher.explain(queries.get(0), docId));
             Document d = idxSearcher.doc(docId);
             String toprint=d.get("field_stored");
             for (int j = 0; j < userQuery.length; j++) {
@@ -109,7 +108,7 @@ public class Searcher {
             
             System.out.println((i + 1) + ". " +toprint);
             if(explain) {
-            	System.out.println(idxSearcher.explain(bqb.build(), docId));
+            	System.out.println(idxSearcher.explain(bq.build(), docId));
             }
             
         }

@@ -52,10 +52,10 @@ public class Indexer {
                     ft.setStoreTermVectorOffsets(true);
                     ft.setStoreTermVectorPayloads(true);
 
-                    Field f = new Field("ub2", ts, ft);
+                    Field f = new Field("field", ts, ft);
 
                 
-                    StoredField sf = new StoredField("ub2_stored", docs.get(i));
+                    StoredField sf = new StoredField("field_stored", docs.get(i));
 
                     Document d = new Document();
                     d.add(f);

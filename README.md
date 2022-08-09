@@ -1,4 +1,4 @@
-# blogretrieve
+# Blogretriever
 
 Download the blogs from the link https://u.cs.biu.ac.il/~koppel/BlogCorpus.htm
 
